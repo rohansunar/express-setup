@@ -1,10 +1,14 @@
 import http from 'http';
 import express from 'express';
 import './config/logging';
+import 'reflect-metadata';
+
 import { loggingHandler } from './middleware/loggingHandler';
 import { corsHandler } from './middleware/corsHandlers';
 import { routeNotFound } from './middleware/routeNotFound';
 import { SERVER, SERVER_HOSTNAME, SERVER_PORT } from './config/config';
+import { defineRoutes } from './modules/routes';
+import MainController from './controllers/main';
 
 export const app = express();
 export let httpServer: ReturnType<typeof http.createServer>;
@@ -25,10 +29,7 @@ export const Main = () => {
     logging.info('-------------------------------------');
     logging.info('Define Controller Routing');
     logging.info('-------------------------------------');
-
-    app.get('/main/healthcheck', (req, res, next) => {
-        return res.status(200).json({ hello: 'World!' });
-    });
+    defineRoutes([MainController], app);
 
     logging.info('-------------------------------------');
     logging.info('Define Controller Routing');

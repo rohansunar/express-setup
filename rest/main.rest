@@ -1,0 +1,7 @@
+### Options
+Send Request
+OPTIONS http://localhost:3000
+
+### Healthcheck
+Send Request
+GET  http://localhost:3000/healthcheck
