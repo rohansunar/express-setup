@@ -4,18 +4,16 @@ Node Express module: less code to run a server.
 
 ## Requirements
 
-- express 4.19.2
-- node 12
-- typescript 5
-- typedoc 
+-   express 4.19.2
+-   node 20
+-   typescript 5
+-   typedoc
 
 ## Install
 
 ```bash
 npm install express --save
 ```
-
-
 
 ## Usage
 
@@ -24,17 +22,14 @@ npm install express --save
 in your **server.ts** file.
 
 ```typescript
-import { Server, Database } from "express";
+import { Server, Database } from 'express';
 //LOAD YOUR CONTROLLERS
-import "./controllers";
+import './controllers';
 
 try {
-    const database = new Database(
-        process.env.DATABASE as string,
-        process.env.NODE_ENV as string
-    );
+    const database = new Database(process.env.DATABASE as string, process.env.NODE_ENV as string);
     database.connect();
-    console.log("Database connected.");
+    console.log('Database connected.');
 } catch (error) {
     console.log(error);
     process.abort();
@@ -46,7 +41,6 @@ export = Server.create({
     enableSession: true,
     sessionSecret: process.env.DATABASE as string
 });
-
 ```
 
 Options `Server.create(options)`
@@ -58,11 +52,9 @@ Options `Server.create(options)`
 5. beforeRouteInjection (optional) - a callback function that runs before Route mounting
 6. afterRouteInjection (optional) - a callback function that runs after Route mounting
 
-
-
 ### Controller
 
-file **controllers/UsersController.ts** 
+file **controllers/UsersController.ts**
 
 ```typescript
 import { Request, Response } from 'express';
@@ -76,17 +68,17 @@ export class UsersController {
     @Get('/')
     index(req: Request, res: Response) {
         res.json({
-            _id: "830493kdiei033-303939kfkdk",
+            _id: '830493kdiei033-303939kfkdk',
             name: 'User',
-            address: "Siliguri"
+            address: 'Siliguri'
         });
     }
 
-    @Middleware(anyMiddleware) 
+    @Middleware(anyMiddleware)
     @Middleware(anotherMiddleware)
     @Post('/')
     oneUser(req: Request, res: Response) {
-        res.send("You are User");
+        res.send('You are User');
     }
 }
 ```

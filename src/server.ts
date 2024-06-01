@@ -10,6 +10,8 @@ import { routeNotFound } from './middleware/routeNotFound';
 import { SERVER, SERVER_HOSTNAME, SERVER_PORT, mongo } from './config/config';
 import { defineRoutes } from './modules/routes';
 import MainController from './controllers/main';
+import { declareHandler } from './middleware/declareHandler';
+import BooksController from './controllers/books';
 
 export const app = express();
 export let httpServer: ReturnType<typeof http.createServer>;
@@ -38,13 +40,14 @@ export const Main = async () => {
     logging.info('-------------------------------------');
     logging.info('Logging & Configuration');
     logging.info('-------------------------------------');
+    app.use(declareHandler);
     app.use(loggingHandler);
     app.use(corsHandler);
 
     logging.info('-------------------------------------');
     logging.info('Define Controller Routing');
     logging.info('-------------------------------------');
-    defineRoutes([MainController], app);
+    defineRoutes([MainController, BooksController], app);
 
     logging.info('-------------------------------------');
     logging.info('Define Controller Routing');
