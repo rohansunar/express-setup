@@ -5,6 +5,7 @@ import { Book } from '../models/Book';
 import { MongoGetAll } from '../decorators/mongoose/getAll';
 import { MongoGet } from '../decorators/mongoose/get';
 import { MongoCreate } from '../decorators/mongoose/create';
+import { MongoDelete } from '../decorators/mongoose/delete';
 
 @Controller('/books')
 class BooksController {
@@ -32,6 +33,7 @@ class BooksController {
         return res.status(201).json(req.mongoUpdate);
     }
     @Route('delete', '/delete/:id')
+    @MongoDelete(Book)
     delete(req: Request, res: Response, next: NextFunction) {
         return res.status(200).json({ message: 'Deleted' });
     }
