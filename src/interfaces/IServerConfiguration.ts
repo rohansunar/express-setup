@@ -1,6 +1,6 @@
 export interface IServerConfiguration {
-    // views: string;
-    // public: string;
+    views: string;
+    public: string;
     /**
      * Right place to add other middlewares
      * just before route mounting
