@@ -2,7 +2,7 @@
     "name": "express-decorators",
     "version": "1.0.0",
     "description": "Node Express module: less code to run a server.",
-    "main": "src/server.ts",
+    "main": "src/index.ts",
     "scripts": {
         "test": "jest --config jest.config.ts --coverage",
         "build": "rimraf build/ && tsc -p tsconfig.build.json"
