@@ -1,8 +1,12 @@
 import { Server } from './server';
+import { Application } from 'express';
 
-export default function app() {
+// Load controllers
+import './controllers/books';
+
+export default function app(): Application {
     // Express Setup
-    Server.create();
+    return Server.create();
 }
 
 app();

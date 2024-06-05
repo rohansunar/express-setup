@@ -54,6 +54,7 @@ export class Server {
         server.mountRouter();
         server._databaseConnect();
         server.runServer();
+        return server.app;
     }
 
     mountRouter() {
@@ -86,20 +87,25 @@ export class Server {
     }
 
     runServer() {
+        console.log('runServer');
         httpServer = http.createServer(this.app);
-        httpServer.listen(SERVER.SERVER_PORT, () => {});
-        httpServer.on('error', function (err) {
-            console.log(err);
-            process.exit(1);
-        });
-        httpServer.on('Listening', () => {
+        httpServer.listen(SERVER.SERVER_PORT, () => {
             logging.info('-------------------------------------');
             logging.info(`Server Started ${SERVER_HOSTNAME} : ${SERVER_PORT}`);
             logging.info('-------------------------------------');
         });
+        // httpServer.on('error', function (err) {
+        //     console.log(err);
+        //     process.exit(1);
+        // });
+        // httpServer.on('Listening', () => {
+        //     logging.info('-------------------------------------');
+        //     logging.info(`Server Started ${SERVER_HOSTNAME} : ${SERVER_PORT}`);
+        //     logging.info('-------------------------------------');
+        // });
     }
 
-    static disconnectServer() {
+    static disconnectServer(callback: any) {
         return (callback: any) => httpServer && httpServer.close(callback);
     }
 }
