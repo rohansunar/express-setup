@@ -2,7 +2,7 @@
     "name": "express-decorators",
     "version": "1.0.0",
     "description": "Node Express module: less code to run a server.",
-    "main": "src/index.ts",
+    "main": "src/example/index.ts",
     "scripts": {
         "test": "jest --config jest.config.ts --coverage",
         "build": "rimraf build/ && tsc -p tsconfig.build.json"
@@ -10,6 +10,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "debug": "^4.3.5",
         "dotenv": "^16.4.5",
         "express": "^4.19.2",
         "joi": "^17.13.1",
@@ -17,6 +18,7 @@
         "reflect-metadata": "^0.2.2"
     },
     "devDependencies": {
+        "@types/debug": "^4.1.12",
         "@types/express": "^4.17.21",
         "@types/jest": "^29.5.12",
         "@types/node": "^20.12.13",

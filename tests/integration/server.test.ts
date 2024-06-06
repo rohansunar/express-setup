@@ -1,6 +1,6 @@
 import supertest from 'supertest';
 import app from '../../src/index';
-import { Server } from '../../src/server';
+import { Server } from '../../src/Server';
 
 const request = supertest(app());
 

@@ -1,23 +1,20 @@
-import http from 'http';
-import express, { Application } from 'express';
-import mongoose from 'mongoose';
-import './config/logging';
 import 'reflect-metadata';
-
-import { IServerConfiguration } from './interfaces';
-import { loggingHandler } from './middleware/loggingHandler';
+import express from 'express';
+import { IServerConfiguration, IErrorParams } from './interfaces';
 import { corsHandler } from './middleware/corsHandlers';
-import { routeNotFound } from './middleware/routeNotFound';
-import { SERVER, SERVER_HOSTNAME, SERVER_PORT, mongo } from './config/config';
-import { defineRoutes } from './modules/routes';
-// import MainController from './controllers/main';
 import { declareHandler } from './middleware/declareHandler';
-import BooksController from './controllers/books';
 import { AppRouter } from './AppRouter';
 
 export const app = express();
-export let httpServer: ReturnType<typeof http.createServer>;
-
+/**
+ * Class to create Node server
+ *
+ * Create a file and paste
+ * ```
+ * import { Server } from "@rohan/express";
+ * export = Server.create({...});
+ * ```
+ */
 export class Server {
     app: express.Express;
 
@@ -26,41 +23,30 @@ export class Server {
     }
 
     setEssentialMiddlewares(): void {
-        logging.info('-------------------------------------');
-        logging.info('Initializing API');
-        logging.info('-------------------------------------');
         app.use(express.urlencoded({ extended: true }));
         app.use(express.json());
-
-        logging.info('-------------------------------------');
-        logging.info('Logging & Configuration');
-        logging.info('-------------------------------------');
         app.use(declareHandler);
-        app.use(loggingHandler);
         app.use(corsHandler);
-
-        logging.info('-------------------------------------');
-        logging.info('Define Controller Routing');
-        logging.info('-------------------------------------');
-        app.use(routeNotFound);
     }
 
     /**
      * Static method to create server
      */
-    public static create() {
+    public static create(options: IServerConfiguration) {
         const server = new Server();
         server.setEssentialMiddlewares();
+        if (options.beforeRouteInjection) {
+            options.beforeRouteInjection(server.app);
+        }
         server.mountRouter();
-        server._databaseConnect();
-        server.runServer();
+        if (options.afterRouteInjection) {
+            options.afterRouteInjection(server.app);
+        }
+        server.setErrorMiddlewares();
         return server.app;
     }
 
     mountRouter() {
-        logging.info('-------------------------------------');
-        logging.info('Define Controller Routing');
-        logging.info('-------------------------------------');
         AppRouter.forEach((item) => {
             /// this equal to
             /// app.use('/users', requires('./users.routes.js'));
@@ -69,43 +55,54 @@ export class Server {
         });
     }
 
-    async _databaseConnect() {
-        logging.info('-------------------------------------');
-        logging.info('Connect to Mongo');
-        logging.info('-------------------------------------');
-        try {
-            const connection = await mongoose.connect(mongo.MONGO_CONNECTION, mongo.MONGO_OPTIONS);
-            logging.log('-------------------------------------');
-            logging.log('Connection to Mongo:');
-            logging.log('-------------------------------------');
-        } catch (error) {
-            logging.log('-------------------------------------');
-            logging.log('Unable to Connect Mongo:');
-            logging.error(error);
-            logging.log('-------------------------------------');
-        }
+    /**
+     * Set error middleware
+     */
+    setErrorMiddlewares() {
+        this._set404();
+        this._set422();
+        this._renderErrorMiddleware();
     }
 
-    runServer() {
-        console.log('runServer');
-        httpServer = http.createServer(this.app);
-        httpServer.listen(SERVER.SERVER_PORT, () => {
-            logging.info('-------------------------------------');
-            logging.info(`Server Started ${SERVER_HOSTNAME} : ${SERVER_PORT}`);
-            logging.info('-------------------------------------');
+    /**
+     * Sets 404 middleware to express
+     */
+    private _set404() {
+        this.app.use((req, res, next) => {
+            let error: IErrorParams = {
+                message: 'Not Found: Requested service does not exists',
+                status: 404
+            };
+            next(error);
         });
-        // httpServer.on('error', function (err) {
-        //     console.log(err);
-        //     process.exit(1);
-        // });
-        // httpServer.on('Listening', () => {
-        //     logging.info('-------------------------------------');
-        //     logging.info(`Server Started ${SERVER_HOSTNAME} : ${SERVER_PORT}`);
-        //     logging.info('-------------------------------------');
-        // });
     }
-
-    static disconnectServer(callback: any) {
-        return (callback: any) => httpServer && httpServer.close(callback);
+    /**
+     * Sets Validation Error thrown from Mongoosejs
+     */
+    private _set422() {
+        this.app.use((err: IErrorParams, req: express.Request, res: express.Response, next: express.NextFunction) => {
+            if (err.name === 'ValidationError') {
+                err.status = 422;
+            }
+            next(err);
+        });
+    }
+    /**
+     * Renders error
+     */
+    private _renderErrorMiddleware() {
+        this.app.use((err: IErrorParams, req: express.Request, res: express.Response, next: express.NextFunction) => {
+            if (!err.status) err.status = 500;
+            res.status(err.status as number);
+            //@todo Log error
+            let error: IErrorParams = {
+                status: err.name,
+                message: err.message
+            };
+            if (err.status == 422) {
+                error.errors = err.errors;
+            }
+            res.json(error); //@todo based on request type, if api request return json else html
+        });
     }
 }
