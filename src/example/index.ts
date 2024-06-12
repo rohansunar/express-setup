@@ -28,3 +28,7 @@ server.on('listening', function () {
     console.log(server.address());
     debug('boilerplate:server')('Listening');
 });
+
+export function close() {
+    server.close();
+}

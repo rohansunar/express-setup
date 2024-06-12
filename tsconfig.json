@@ -1,17 +1,16 @@
 {
     "compilerOptions": {
-        "target": "es2016",
-        "allowSyntheticDefaultImports": true,
-        "experimentalDecorators": true,
-        "module": "Node16",
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
+        "module": "commonjs",
+        "target": "es2020",
+        "outDir": "./build",
+        "rootDir": "./src",
         "strict": true,
+        "esModuleInterop": true,
         "skipLibCheck": true,
-        "moduleResolution": "Node16",
-        "outDir": "build",
+        "resolveJsonModule": true,
+        "experimentalDecorators": true,
         "types": ["jest", "reflect-metadata"]
     },
-    "exclude": ["node_modules/"],
-    "include": ["src/**/*.ts", "tests/**/*.ts"]
+    "include": ["src/**/*.ts", "tests/**/*.ts"],
+    "exclude": ["node_modules"]
 }

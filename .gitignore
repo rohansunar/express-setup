@@ -48,3 +48,4 @@ docs
 dist
 coverage
 build
+.nyc_output
