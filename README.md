@@ -1,6 +1,6 @@
 # Express
 
-Node Express module: less code to run a server.
+Use TypeScript decorators to register express restful service. Node Express module: less code to run a server.
 
 ## Requirements
 
