@@ -1,14 +1,25 @@
 {
     "name": "decor-express",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "Node Express module: less code to run a server.",
-    "main": "src/example/index.ts",
+    "main": "./dist/index.js",
     "scripts": {
         "test": "jest --config jest.config.ts --coverage",
-        "build": "rimraf build/ && tsc -p tsconfig.build.json"
+        "build": "rimraf build/ && tsc -p tsconfig.build.json",
+        "prepublishOnly": "npm run tsc"
     },
-    "author": "",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:rohansunar/express-typescript-boilerplate.git"
+    },
+    "keywords": [
+        "typescript",
+        "decorator",
+        "npm"
+    ],
+    "author": "Drivio",
     "license": "ISC",
+    "homepage": "https://github.com/rohansunar/express-typescript-boilerplate/blob/version-2.0.0/README.md",
     "dependencies": {
         "debug": "^4.3.5",
         "dotenv": "^16.4.5",
