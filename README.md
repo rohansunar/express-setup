@@ -12,7 +12,7 @@ Use TypeScript decorators to register express restful service. Node Express modu
 ## Install
 
 ```bash
-npm install express --save
+npm install decor-express --save
 ```
 
 ## Usage
