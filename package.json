@@ -1,6 +1,6 @@
 {
     "name": "decor-express",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "description": "Node Express module: less code to run a server.",
     "main": "./dist/index.js",
     "scripts": {
