@@ -5,8 +5,8 @@
     "main": "./dist/index.js",
     "scripts": {
         "test": "jest --config jest.config.ts --coverage",
-        "build": "rimraf build/ && tsc -p tsconfig.build.json",
-        "prepublishOnly": "npm run tsc"
+        "build": "rimraf dist/ && tsc -p tsconfig.build.json",
+        "prepublishOnly": "npm run build"
     },
     "repository": {
         "type": "git",
