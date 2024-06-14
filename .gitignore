@@ -47,5 +47,5 @@ node_modules
 docs
 dist
 coverage
-build
+dist
 .nyc_output

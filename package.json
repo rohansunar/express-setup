@@ -1,5 +1,5 @@
 {
-    "name": "express-decorator-setup",
+    "name": "decor-express",
     "version": "2.0.0",
     "description": "Node Express module: less code to run a server.",
     "main": "src/example/index.ts",
