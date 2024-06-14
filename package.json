@@ -1,6 +1,6 @@
 {
     "name": "decor-express",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "description": "Node Express module: less code to run a server.",
     "main": "./dist/index.js",
     "scripts": {
@@ -17,7 +17,7 @@
         "decorator",
         "npm"
     ],
-    "author": "Drivio",
+    "author": "Rohan Sonar",
     "license": "ISC",
     "homepage": "https://github.com/rohansunar/express-typescript-boilerplate/blob/version-2.0.0/README.md",
     "dependencies": {
