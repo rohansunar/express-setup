@@ -3,6 +3,10 @@
     "version": "2.0.3",
     "description": "Node Express module: less code to run a server.",
     "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist/"
+    ],
     "scripts": {
         "test": "jest --config jest.config.ts --coverage",
         "build": "rimraf dist/ && tsc -p tsconfig.build.json",
